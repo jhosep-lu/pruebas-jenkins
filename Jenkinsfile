@@ -4,7 +4,6 @@ pipeline {
             label 'Node2'
         }
     }
-
     stages {
         stage('Clonar repositorio') {
             steps {
@@ -13,14 +12,12 @@ pipeline {
         }
 
         stage('Ejecutar Hola Mundo') {
-            agent {
-                docker {
-                    image 'docker/compose'
-                    args '-u root'
-                }
-            }
             steps {
-                sh 'docker-compose up hola-mundo'
+                script {
+                    docker.image('docker/compose').withRun('-u root') {
+                        sh 'docker-compose up hola-mundo'
+                    }
+                }
             }
         }
     }
