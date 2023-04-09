@@ -1,8 +1,7 @@
 pipeline {
     agent {
-        docker {
-            image 'docker/compose'
-            args '-u root'
+        node {
+            label 'Node2'
         }
     }
 
@@ -14,6 +13,12 @@ pipeline {
         }
 
         stage('Ejecutar Hola Mundo') {
+            agent {
+                docker {
+                    image 'docker/compose'
+                    args '-u root'
+                }
+            }
             steps {
                 sh 'docker-compose up hola-mundo'
             }
